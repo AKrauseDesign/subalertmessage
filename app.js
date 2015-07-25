@@ -20,12 +20,22 @@ client.connect();
 
 // ---------------------------------------------------
 
-client.addListener('chat', function(channel, user, message, self) {
+var subs = {};
 
+function sendEvent(user, msg){
+  io.emit('subMsg', {
+    username: user,
+    message: msg
+  });
+}
+
+client.on('subscription', function (channel, username) {
+  subs[username] = username;
+  client.whisper(username, 'xanHY xanPE Thanks for Subscribing '+username+' xanLove You now have 1 minute to whisper me back with a message to show on stream!');
 });
 
 client.on('whisper', function(username, message){
-  client.whisper(username, 'xanHY xanPE Thanks for Subscribing '+username+' xanLove You now have 1 minute to whisper me back with a message to show on stream!');
+
 });
 
 // User Subscribes -> Server Responds with message (Timer Starts - 1 minute) -> Client responds -> Removed from list -> socket connection -> frontend
