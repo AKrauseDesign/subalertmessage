@@ -32,18 +32,23 @@ function sendEvent(user, msg){
 
 
 client.on('subscription', function (channel, username) {
-  subs[username] = {username: username, subbed: Date.now()};
+  subs[username] = {
+    username: username,
+    subbed: Date.now()
+  };
+
   client.whisper(username, 'xanHY xanPE Thanks for Subscribing ' + username + ' xanLove You now have 1 minute to whisper me back with a message to show on stream!');
 });
 
 
-client.on('whisper', function(username, message){
-if(subs.hasOwnProperty(username)) {
-   var time = Date.now() - subs[username].subbed;
-   if(time < 60000)
-    queue.push({username: username, message : message});
-}
-// Pushing message object to que if they responded within 60 seconds
+client.on('whisper', function(username, message) {
+  if(subs.hasOwnProperty(username)) {
+    var time = Date.now() - subs[username].subbed;
+    if(time < 60000) {
+      queue.push(subs[username]);
+    }
+  }
+  // Pushing message object to que if they responded within 60 seconds
 });
 
 

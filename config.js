@@ -1,7 +1,8 @@
 var port = 3000;
+
 var identity = {
   name: ['izlbot'],
-  channels: ['massansc', 'stylerdev','forsenlol'],
+  channels: ['massansc', 'stylerdev', 'forsenlol'],
   oauth: 'oauth:vjfg2k6x1iwbeo9kt4v8ah9j8v8oxk',
 };
 
@@ -19,6 +20,7 @@ var tmi = {
   },
   channels: identity.channels
 };
+
 module.exports = {
   tmi: tmi,
   identity: identity,
