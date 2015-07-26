@@ -13,13 +13,11 @@ var irc     = require('tmi.js'),
     app     = require('express')(),
     http    = require('http').Server(app),
     io      = require('socket.io')(http),
-    config  = require('./config'),
+    config  = require('./config');
 
 
 var client = new irc.client(config.tmi);
 client.connect();
-
-// ---------------------------------------------------
 
 var subs = {};
 var queue = [];
@@ -33,13 +31,10 @@ function sendEvent(user, msg){
 }
 
 
-
-
 client.on('subscription', function (channel, username) {
   subs[username] = {username: username, subbed: new Date()};
   client.whisper(username, 'xanHY xanPE Thanks for Subscribing ' + username + ' xanLove You now have 1 minute to whisper me back with a message to show on stream!');
 });
-
 
 
 client.on('whisper', function(username, message){
@@ -52,11 +47,4 @@ if(subs.hasOwnProperty(username)) {
 });
 
 
-
-
-
-
-
-
-// User Subscribes -> Server Responds with message (Timer Starts - 1 minute) -> Client responds -> Removed from list -> socket connection -> frontend
-// - Queue -
+// User Subscribes [done] -> Server Responds with message (Timer Starts - 1 minute) [done] -> Client responds [done] -> Removed from list [TODO] -> socket connection [TODO] -> frontend [TODO]
