@@ -19,14 +19,14 @@ var irc     = require('tmi.js'),
 var client = new irc.client(config.tmi);
 client.connect();
 
-var subs = {};
+var subs  = {};
 var queue = [];
 
 
 function sendEvent(user, msg){
   io.emit('subMsg', {
     username: user,
-    message: msg
+    message:  msg
   });
 }
 
@@ -34,7 +34,7 @@ function sendEvent(user, msg){
 setInterval(function() {
   for(var sub in subs) {
     var time = Date.now() - sub.subbed;
-    if(time < 60000) {
+    if(time > 60000) {
       delete subs[sub];
     }
   }
@@ -44,7 +44,7 @@ setInterval(function() {
 client.on('subscription', function (channel, username) {
   subs[username] = {
     username: username,
-    subbed: Date.now()
+    subbed:   Date.now()
   };
 
   client.whisper(username, 'xanHY xanPE Thanks for Subscribing ' + username + ' xanLove You now have 1 minute to whisper me back with a message to show on stream!');
@@ -60,7 +60,6 @@ client.on('whisper', function(username, message) {
       delete subs[username];
     }
   }
-  // Pushing message object to que if they responded within 60 seconds
 });
 
 
