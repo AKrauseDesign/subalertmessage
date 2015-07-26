@@ -31,6 +31,16 @@ function sendEvent(user, msg){
 }
 
 
+setInterval(function() {
+  for(var sub in subs) {
+    var time = Date.now() - sub.subbed;
+    if(time < 60000) {
+      delete subs[sub];
+    }
+  }
+}, 1000 * 60 * 60);
+
+
 client.on('subscription', function (channel, username) {
   subs[username] = {
     username: username,
@@ -45,11 +55,14 @@ client.on('whisper', function(username, message) {
   if(subs.hasOwnProperty(username)) {
     var time = Date.now() - subs[username].subbed;
     if(time < 60000) {
+      // Give response, tell user we'll display their message on-stream asap.
       queue.push(subs[username]);
+      delete subs[username];
     }
   }
   // Pushing message object to que if they responded within 60 seconds
 });
 
 
-// User Subscribes [done] -> Server Responds with message (Timer Starts - 1 minute) [done] -> Client responds [done] -> Removed from list [TODO] -> socket connection [TODO] -> frontend [TODO]
+// User Subscribes [done] -> Server Responds with message (Timer Starts - 1 minute) [done] -> Client responds [done] -> Removed from list [done] -> socket connection [TODO] -> frontend [TODO]
+// NOTE: Create a que on the frontend
