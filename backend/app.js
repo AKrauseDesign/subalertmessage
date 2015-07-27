@@ -19,9 +19,20 @@ var irc     = require('tmi.js'),
 var client = new irc.client(config.tmi);
 client.connect();
 
+http.listen(config.port, function(){
+  console.log('Connection Successful: listening on *:' + config.port);
+});
+
 var subs = {};
 var queue = [];
 
+io.on('connection', function(socket){
+  socket.on('fakeSub', function(data) {
+    console.log('Client: Hey, can I have a fake sub?');
+    console.log('Server: Hi! Want a fake sub? Have one!');
+    sendEvent(data.username, data.message);
+  });
+});
 
 function sendEvent(user, msg){
   io.emit('subMsg', {

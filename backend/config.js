@@ -1,8 +1,8 @@
-var port = 3000;
+var port = 3100;
 
 var identity = {
   name: ['izlbot'],
-  channels: ['massansc', 'stylerdev', 'forsenlol'],
+  channels: ['stylerdev'],
   oauth: 'oauth:vjfg2k6x1iwbeo9kt4v8ah9j8v8oxk',
 };
 
@@ -12,7 +12,9 @@ var tmi = {
   },
   connection: {
     random: 'group',
-    reconnect: true
+    reconnect: true,
+    server: '199.9.253.120',
+    port: 80
   },
   identity: {
     username: identity.name,
