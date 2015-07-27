@@ -24,7 +24,6 @@ http.listen(config.port, function(){
 });
 
 var subs = {};
-var queue = [];
 
 io.on('connection', function(socket){
   socket.on('fakeSub', function(data) {
@@ -45,7 +44,7 @@ function sendEvent(user, msg){
 setInterval(function() {
   for(var sub in subs) {
     var time = Date.now() - sub.subbed;
-    if(time < 60000) {
+    if(time > 60000) {
       delete subs[sub];
     }
   }
@@ -67,11 +66,10 @@ client.on('whisper', function(username, message) {
     var time = Date.now() - subs[username].subbed;
     if(time < 60000) {
       // Give response, tell user we'll display their message on-stream asap.
-      queue.push(subs[username]);
+      sendEvent(username, message);
       delete subs[username];
     }
   }
-  // Pushing message object to que if they responded within 60 seconds
 });
 
 
