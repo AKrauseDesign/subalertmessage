@@ -7,11 +7,11 @@ var container = document.querySelector('.subalert');
 var usernameEl = container.querySelector('.username');
 var messageEl = container.querySelector('.message');
 
-var displayTime = 15 * 1000;
-sound.addEventListener('loadedmetadata', function(){
-  displayTime = sound.duration * 1000;
-  console.log(displayTime);
-});
+var displayTime = 10 * 1000;
+// sound.addEventListener('loadedmetadata', function(){
+//   displayTime = sound.duration * 1000;
+//   console.log(displayTime);
+// });
 var playing = false;
 
 var notify = function(data) {
@@ -38,12 +38,3 @@ var notify = function(data) {
 };
 
 socket.on('subMsg', notify);
-
-var uselessData = 'Hi, I want a fake sub';
-var testBtn = document.querySelector('.test');
-testBtn.addEventListener('click', function() {
-  socket.emit('fakeSub', {
-    username: 'Inormous',
-    message: 'Hey Massan <3 <3 Great lol skills keep going Keepo'
-  });
-});

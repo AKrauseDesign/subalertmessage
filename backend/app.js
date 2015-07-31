@@ -17,7 +17,13 @@ var irc     = require('tmi.js'),
 
 
 var client = new irc.client(config.tmi);
-client.connect();
+client.connect().then(function(){
+  console.log('Connected to TMI');
+});
+var group = new irc.client(config.grouptmi);
+group.connect().then(function(){
+  console.log('Connected to Group TMI');
+});
 
 http.listen(config.port, function(){
   console.log('Connection Successful: listening on *:' + config.port);
@@ -50,25 +56,36 @@ setInterval(function() {
   }
 }, 1000 * 60 * 60);
 
+client.on('chat', function (channel, user, message, self) {
+  if(message === '!subscribe') {
+    group.whisper(user.username, 'xanHY xanPE Thanks for Subscribing ' + user.username + ' xanLove You now have 1 minute to whisper me back with a message to show on stream!');
+    group.whisper(user.username, '[EXAMPLE]:  /w izlbot Kappa Kappa HEY I LOVE YOU!!!');
+    subs[user.username] = {
+      username: user.username,
+      subbed: Date.now()
+    };
+  }
+});
 
 client.on('subscription', function (channel, username) {
+  group.whisper(username, 'xanHY xanPE Thanks for Subscribing ' + username + ' xanLove You now have 1 minute to whisper me back with a message to show on stream!');
+  group.whisper(username, '[EXAMPLE]:  /w izlbot Kappa Kappa HEY I LOVE YOU!!!');
   subs[username] = {
     username: username,
     subbed: Date.now()
   };
-
-  client.whisper(username, 'xanHY xanPE Thanks for Subscribing ' + username + ' xanLove You now have 1 minute to whisper me back with a message to show on stream!');
 });
 
-
-client.on('whisper', function(username, message) {
+group.on('whisper', function(username, message) {
   if(subs.hasOwnProperty(username)) {
     var time = Date.now() - subs[username].subbed;
     if(time < 60000) {
-      // Give response, tell user we'll display their message on-stream asap.
+      group.whisper(username, '" '+ message +' "' + ' Will be shown on stream within 30 seconds 4Head');
       sendEvent(username, message);
       delete subs[username];
     }
+  } else {
+    group.whisper(username, 'Sorry you don\'t have permission SwiftRage');
   }
 });
 

@@ -11,6 +11,20 @@ var tmi = {
     debug: true
   },
   connection: {
+    random: 'chat',
+    reconnect: true
+  },
+  identity: {
+    username: identity.name,
+    password: identity.oauth
+  },
+  channels: identity.channels
+};
+var grouptmi = {
+  options: {
+    debug: true
+  },
+  connection: {
     random: 'group',
     reconnect: true,
     server: '199.9.253.120',
@@ -25,6 +39,7 @@ var tmi = {
 
 module.exports = {
   tmi: tmi,
+  grouptmi: grouptmi,
   identity: identity,
   port: port,
 };
