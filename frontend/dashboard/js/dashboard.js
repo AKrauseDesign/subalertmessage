@@ -1,8 +1,6 @@
 var socket = io('http://localhost:3100');
 
-var queue = [];
 var lastTen = [];
-
 var list = document.getElementsByClassName('content')[0];
 
 var sectionFactory = function(id, username, message) {
@@ -19,35 +17,4 @@ var findLastTen = function(data) {
   }
 };
 
-var notify = function(data) {
-  queue.push(data);
-
-  if(!playing) {
-    playing = true;
-    var ttsUrl = 'http://text-to-speech-demo.mybluemix.net/synthesize?voice=en-US_AllisonVoice&text=';
-    // var ttsUrl = 'http://hosted.stylerdev.io:3100/synthesize?voice=en-US_AllisonVoice&text=';
-    var msg = queue[0].message;
-    messageEl.textContent = queue[0].message;
-    usernameEl.textContent = queue[0].username;
-    queue.shift();
-    container.classList.add('visible');
-    setTimeout(function() {
-      tts.src = ttsUrl + encodeURIComponent(msg);
-      setTimeout(function(){
-        container.classList.remove('visible');
-        setTimeout(function() {
-          playing = false;
-          if(queue.length > 0) {
-            notify(null);
-          }
-        }, 3000);
-      }, displayTime - 2000);
-    }, 2000);
-  }
-};
-
 socket.on('subMsg', findLastTen);
-socket.on('subMsg', notify);
-socket.on('stopSound', function(){
-  tts.stop();
-});
