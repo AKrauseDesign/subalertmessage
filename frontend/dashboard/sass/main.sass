@@ -1,6 +1,21 @@
 $main: #555
 $bg: #eee
 
+// Scrollbar stuff. Webkit only
+::-webkit-scrollbar
+  width: 4px
+  height: 4px
+
+::-webkit-scrollbar-track
+  background: transparent
+
+::-webkit-scrollbar-thumb
+  background-color: #a5abb1
+
+::-webkit-scrollbar-thumb:hover
+  background-color: darken(#a5abb1, 20)
+
+
 html, body
   color: $main
   background: $bg
@@ -49,3 +64,12 @@ section
   .logo
     text-align: center
     margin-left: 0
+  .content
+    margin: 20px
+
+@media (max-width: 600px)
+  .logo
+    font-size: 28px
+  .wrap
+    width: 100%
+    margin: 10px 5px 0 5px
