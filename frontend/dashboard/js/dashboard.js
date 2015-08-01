@@ -25,6 +25,7 @@ var sectionFactory  = function(id, username, message) {
 
 
   var wrap                     = document.createElement('div');
+  var br                       = document.createElement('br');
   var usernameTitle            = document.createElement('span');
   var usernameTitleText        = document.createTextNode('Username: ');
   var messageTitle             = document.createElement('span');
@@ -35,18 +36,23 @@ var sectionFactory  = function(id, username, message) {
   var messageContentText       = document.createTextNode(message);
 
 
+  usernameContent.className = 'username';
+  messageContent.className  = 'message';
+  usernameTitle.className   = 'title';
+  messageTitle.className    = 'title';
+  wrap.className            = 'wrap';
+
 
   usernameTitle.appendChild(usernametitleText);
   messageTitle.appendChild(messageTitleText);
 
 
-
   wrap.appendChild(usernameTitle);
   wrap.appendChild(usernameContent);
+  wrap.appendChild(br);
   wrap.appendChild(messageTitle);
   wrap.appendChild(messageContent);
 };
-
 
 
 var lastTenFunc = function(data) {
