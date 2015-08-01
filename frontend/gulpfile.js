@@ -34,6 +34,8 @@ gulp.task('watch', function() {
 });
 
 
+gulp.task('default', ['watch']);
+
 function errorAlert(error){
   notify.onError({title: "Gulp Error", message: "Beep beep beep, stuffs going down. Check the console."})(error); //Error Notification
   console.log(error.toString()); //Prints Error to Console
