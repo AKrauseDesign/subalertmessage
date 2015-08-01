@@ -10,40 +10,6 @@ var lastTen     = [];
 var playing     = false;
 var list        = document.getElementByClassName('content');
 
-var sectionFactory  = function(id, username, message) {
-      var section = document.createElement('section');
-      section.className = id;
-
-  var numberTitle           = document.createElement('span');
-  var numberTitleText       = document.createTextNode(id);
-      numberTitle.className = 'number';
-      numberTitle.appendChild(numberTitleText);
-      section.appendChild(numberTitle);
-
-  var wrap                     = document.createElement('div');
-  var usernameTitle            = document.createElement('span');
-  var usernameTitleText        = document.createTextNode('Username: ');
-  var messageTitle             = document.createElement('span');
-  var messageTitleText         = document.createTextNode('Message: ');
-  var usernameContent          = document.createElement('span');
-  var messageContent           = document.createElement('span');
-  var usernameContentText      = document.createTextNode(username);
-  var messageContentText       = document.createTextNode(message);
-
-
-
-  usernameTitle.appendChild(usernametitleText);
-  messageTitle.appendChild(messageTitleText);
-
-
-
-  wrap.appendChild(usernameTitle);
-  wrap.appendChild(usernameContent);
-  wrap.appendChild(messageTitle);
-  wrap.appendChild(messageContent);
-
-};
-
 var lastTen = function(data) {
   if(data !== null) {
     for(var i = 0; i < data.length; i++) {
