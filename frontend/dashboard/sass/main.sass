@@ -1,0 +1,51 @@
+$main: #555
+$bg: #eee
+
+html, body
+  color: $main
+  background: $bg
+  font-family: "Montserrat", "Open Sans", sans-serif
+  font-size: 18px
+  line-height: 1.4
+  margin: 0
+  padding: 0
+  width: 100%
+  height: 100%
+
+.logo
+  margin: 30px 0 30px 50px
+  font-size: 48px
+  text-transform: uppercase
+  font-weight: 400
+  letter-spacing: 2px
+  span
+    letter-spacing: normal
+    font-weight: 700
+
+.content
+  max-width: 800px
+  margin: 0 auto
+
+section
+  margin-bottom: 30px
+  border-top: 2px solid rgba($main, 0.8)
+
+.number
+  display: block
+  margin: 5px 0 0 10px
+  font-size: 22px
+  font-weight: 600
+  &:before
+    content: '#'
+
+.wrap
+  margin: 0 45px
+
+.title
+  font-weight: 800
+  text-transform: uppercase
+
+@media (max-width: 850px)
+  .logo
+    text-align: center
+    margin-left: 0
