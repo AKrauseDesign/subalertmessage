@@ -36,7 +36,7 @@ var notify = function(data) {
           if(queue.length > 0) {
             notify(null);
           }
-        }, ttsTime + 2000);
+        }, ttsTime - displayTime);
       }, displayTime - 2000);
     }, 2000);
   }
