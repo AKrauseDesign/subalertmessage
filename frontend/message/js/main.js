@@ -7,8 +7,28 @@ var container = document.querySelector('.subalert');
 var usernameEl = container.querySelector('.username');
 var messageEl = container.querySelector('.message');
 var displayTime = 5 * 1000;
-
+var lastTen = [];
 var playing = false;
+var list = document.getElementByClassName('lastTen');
+
+var lastTen = function(data) {
+  if(data !== null) {
+    for(var i = 0; i < data.length; i++) {
+      lastTen.push(data[i]);
+    }
+    if(lastTen.length > 10) {
+      lastTen.pop();
+      list.removeChild(list.lastChild);
+     }
+    for(var j = 0; j < lastTen.length; j++) {
+      var element = document.createElement('li');
+      var text = 'username: ' + lastTen[i].username + ', message: ' + lastTen[i].message + ', resub: ' + lastTen[i].resub;
+      element.appendChild(text);
+      list.appendChild(element);
+    }
+  }
+};
+
 var notify = function(data) {
   if(data !== null) {
     queue.push(data);
@@ -37,6 +57,7 @@ var notify = function(data) {
   }
 };
 
+socket.on('subMsg', lastTen);
 socket.on('subMsg', notify);
 socket.on('stopSound', function(){
   $('.tts').attr('src', '');
