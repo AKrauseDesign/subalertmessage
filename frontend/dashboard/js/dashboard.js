@@ -8,7 +8,7 @@ var sectionFactory = function(id, username, message) {
 };
 
 var findLastTen = function(data) {
-  lastTen.push(data);
+  lastTen.unshift(data);
   if(lastTen.length > 10) {
     lastTen.pop();
    }
