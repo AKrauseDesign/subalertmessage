@@ -33,6 +33,7 @@ gulp.task('watch', function() {
    gulp.watch(['dist/**', 'index.html']).on('change', livereload.changed);
 });
 
+gulp.task('default', ['watch']);
 
 function errorAlert(error){
   notify.onError({title: "Gulp Error", message: "Beep beep beep, stuffs going down. Check the console."})(error); //Error Notification

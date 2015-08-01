@@ -9,17 +9,20 @@ var messageEl = container.querySelector('.message');
 var displayTime = 5 * 1000;
 var lastTen = [];
 var playing = false;
-var list = document.getElementByClassName('lastTen');
+var list = document.getElementByClassName('content');
+
 
 var sectionFactory  = function(id, username, message) {
-      var section = document.createElement('section');
+  var section = document.createElement('section');
       section.className = id;
+
 
   var numberTitle           = document.createElement('span');
   var numberTitleText       = document.createTextNode(id);
       numberTitle.className = 'number';
       numberTitle.appendChild(numberTitleText);
       section.appendChild(numberTitle);
+
 
   var wrap                     = document.createElement('div');
   var usernameTitle            = document.createElement('span');
@@ -42,12 +45,11 @@ var sectionFactory  = function(id, username, message) {
   wrap.appendChild(usernameContent);
   wrap.appendChild(messageTitle);
   wrap.appendChild(messageContent);
-
 };
 
 
 
-var lastTen = function(data) {
+var lastTenFunc = function(data) {
   if(data !== null) {
     for(var i = 0; i < data.length; i++) {
       lastTen.push(data[i]);
@@ -57,10 +59,7 @@ var lastTen = function(data) {
       list.removeChild(list.lastChild);
      }
     for(var j = 0; j < lastTen.length; j++) {
-      var element = document.createElement('li');
-      var text = 'username: ' + lastTen[i].username + ', message: ' + lastTen[i].message + ', resub: ' + lastTen[i].resub;
-      element.appendChild(text);
-      list.appendChild(element);
+      sectionFactory(lastTen[j], lastTen[j].username, lastTen[j].message);
     }
   }
 };
@@ -92,6 +91,8 @@ var notify = function(data) {
     }, displayTime);
   }
 };
+
+
 
 socket.on('subMsg', lastTen);
 socket.on('subMsg', notify);
