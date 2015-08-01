@@ -13,8 +13,32 @@ var irc     = require('tmi.js'),
     app     = require('express')(),
     http    = require('http').Server(app),
     io      = require('socket.io')(http),
-    config  = require('./config');
+    config  = require('./config'),
+    fs      = require('fs'),
+    extend       = require('util')._extend,
+    watson = require('watson-developer-cloud');
 
+var credentials = {
+  url: 'https://stream.watsonplatform.net/text-to-speech/api',
+  version: 'v1',
+  username: 'c6fa0d91-291e-4651-b2df-443933c1736a',
+  password: 'Yr6WnIkiOPZQ',
+};
+
+var textToSpeech = watson.text_to_speech(credentials);
+
+app.get('/synthesize', function(req, res) {
+  var transcript = textToSpeech.synthesize(req.query);
+  transcript.on('response', function(response) {
+    if (req.query.download) {
+      response.headers['content-disposition'] = 'attachment; filename=transcript.ogg';
+    }
+  });
+  transcript.on('error', function(error) {
+    console.log('Synthesize error: ', error);
+  });
+  transcript.pipe(res);
+});
 
 var client = new irc.client(config.tmi);
 client.connect().then(function(){
@@ -31,21 +55,13 @@ http.listen(config.port, function(){
 
 var subs = {};
 
-io.on('connection', function(socket){
-  socket.on('fakeSub', function(data) {
-    console.log('Client: Hey, can I have a fake sub?');
-    console.log('Server: Hi! Want a fake sub? Have one!');
-    sendEvent(data.username, data.message);
-  });
-});
-
-function sendEvent(user, msg){
+function sendEvent(user, resub, msg){
   io.emit('subMsg', {
     username: user,
+    resub: resub,
     message: msg
   });
 }
-
 
 setInterval(function() {
   for(var sub in subs) {
@@ -57,13 +73,35 @@ setInterval(function() {
 }, 1000 * 60 * 60);
 
 client.on('chat', function (channel, user, message, self) {
-  if(message === '!subscribe') {
-    group.whisper(user.username, 'xanHY xanPE Thanks for Subscribing ' + user.username + ' xanLove You now have 1 minute to whisper me back with a message to show on stream!');
-    group.whisper(user.username, '[EXAMPLE]:  /w izlbot Kappa Kappa HEY I LOVE YOU!!!');
-    subs[user.username] = {
-      username: user.username,
-      subbed: Date.now()
-    };
+  switch (message) {
+    case '!sub':
+      group.whisper(user.username, 'xanHY xanPE Thanks for Subscribing ' + user.username + ' xanLove You now have 1 minute to whisper me back with a message to show on stream!');
+      group.whisper(user.username, '[EXAMPLE]:  /w izlbot Kappa Kappa HEY I LOVE YOU!!!');
+      subs[user.username] = {
+        username: user.username,
+        subbed: Date.now()
+      };
+      break;
+      case '!resub':
+        group.whisper(user.username, 'xanHY xanPE Thanks for Subscribing ' + user.username + ' xanLove You now have 1 minute to whisper me back with a message to show on stream!');
+        group.whisper(user.username, '[EXAMPLE]:  /w izlbot Kappa Kappa HEY I LOVE YOU!!!');
+        subs[user.username] = {
+          username: user.username,
+          months: 10,
+          subbed: Date.now()
+        };
+      break;
+
+      case 'debug':
+      console.log(subs);
+      break;
+
+      case 'test':
+        sendEvent('stylerdev', 5, 'Here\'s your test message');
+      break;
+
+    default:
+    console.log('Not Found');
   }
 });
 
@@ -75,18 +113,42 @@ client.on('subscription', function (channel, username) {
     subbed: Date.now()
   };
 });
+client.on('subanniversary', function (channel, username, months) {
+  group.whisper(username, 'xanHY xanPE Thanks for Resubscribing for '+ months + ' months ' + username + ' xanLove You now have 1 minute to whisper me back with a message to show on stream!');
+  group.whisper(username, '[EXAMPLE]:  /w izlbot Kappa Kappa HEY I LOVE YOU!!!');
+  subs[username] = {
+    username: username,
+    resub: months,
+    subbed: Date.now()
+  };
+});
 
 group.on('whisper', function(username, message) {
-  if(subs.hasOwnProperty(username)) {
-    var time = Date.now() - subs[username].subbed;
-    if(time < 60000) {
-      group.whisper(username, '" '+ message +' "' + ' Will be shown on stream within 30 seconds 4Head');
-      sendEvent(username, message);
-      delete subs[username];
+  if(message === 'stop') {
+    if(username === 'massansc' || username === 'INORMOUS' || username === 'stylerdev') {
+      io.emit('stopSound');
     }
   } else {
-    group.whisper(username, 'Sorry you don\'t have permission SwiftRage');
+    if(subs.hasOwnProperty(username)) {
+      var time = Date.now() - subs[username].subbed;
+      var submonths = subs[username].months;
+      if(time < 60000) {
+        if(submonths) {
+          group.whisper(username, '" '+ message +' "' + ' Will be shown on stream within 30 seconds 4Head');
+          sendEvent(username, submonths, message);
+          delete subs[username];
+        } else {
+          group.whisper(username, '" '+ message +' "' + ' Will be shown on stream within 30 seconds 4Head');
+          sendEvent(username, 0, message);
+          delete subs[username];
+        }
+      }
+    }
+    else {
+      group.whisper(username, 'Sorry you don\'t have permission SwiftRage');
+    }
   }
+
 });
 
 
