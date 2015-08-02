@@ -157,7 +157,6 @@ group.on('whisper', function(username, message) {
 
 
 var audio = new Audio('http://stylerdev.io/s/Donation_v2.mp3');
-      var start = Date.now();
       audio.play();
       audio.addEventListener('loadedmetadata', function() {
         console.log('Duration: ' + audio.duration + ' Seconds');
