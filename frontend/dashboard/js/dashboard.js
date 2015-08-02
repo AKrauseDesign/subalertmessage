@@ -10,7 +10,7 @@ var sectionFactory = function(id, username, message, resub) {
 
 var findLastTen = function(data) {
   if(data !== null) {
-  lastTen.unshift(data);
+    lastTen.unshift(data);
   if(lastTen.length > 10) {
     lastTen.pop();
    }
