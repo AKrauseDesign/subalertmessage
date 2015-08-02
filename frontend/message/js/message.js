@@ -11,16 +11,16 @@ var lastTen     = [];
 var playing     = false;
 var list        = document.getElementsByClassName('content')[0];
 var notify = function(data) {
+  if(data !== null) {
   queue.push(data);
+}
   if(!playing) {
     playing = true;
     // var ttsUrl = 'http://text-to-speech-demo.mybluemix.net/synthesize?voice=en-US_AllisonVoice&text=';
     var ttsUrl = 'http://hosted.stylerdev.io:3100/synthesize?voice=en-US_AllisonVoice&text=';
-    if(queue[0].message !== null && queue[0].username !== null) {
     var msg = queue[0].message;
     messageEl.textContent = msg;
     usernameEl.textContent = queue[0].username;
-  }
     queue.shift();
     container.classList.add('visible');
     setTimeout(function() {

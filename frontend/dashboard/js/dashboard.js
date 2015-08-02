@@ -8,6 +8,7 @@ var sectionFactory = function(id, username, message) {
 };
 
 var findLastTen = function(data) {
+  if(data !== null) {
   lastTen.unshift(data);
   if(lastTen.length > 10) {
     lastTen.pop();
@@ -16,6 +17,7 @@ var findLastTen = function(data) {
   for(var j = 0; j < lastTen.length; j++) {
     sectionFactory(j+1, lastTen[j].username, lastTen[j].message);
   }
+}
 };
 
 socket.on('subMsg', findLastTen);

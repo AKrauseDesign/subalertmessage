@@ -154,3 +154,12 @@ group.on('whisper', function(username, message) {
 
 // User Subscribes [done] -> Server Responds with message (Timer Starts - 1 minute) [done] -> Client responds [done] -> Removed from list [done] -> socket connection [TODO] -> frontend [TODO]
 // NOTE: Create a que on the frontend
+
+
+var audio = new Audio('http://stylerdev.io/s/Donation_v2.mp3');
+      var start = Date.now();
+      audio.play();
+      audio.addEventListener('loadedmetadata', function() {
+        console.log('Duration: ' + audio.duration + ' Seconds');
+        audio.play();
+      });
