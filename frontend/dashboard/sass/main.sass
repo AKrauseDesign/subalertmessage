@@ -22,7 +22,7 @@ $lightbg: #ecf0f7
 html, body
   color: $main
   background: $bg
-  font-family: "Montserrat", "Open Sans", sans-serif
+  font-family: "Open Sans", sans-serif
   font-size: 18px
   line-height: 1.4
   margin: 0
@@ -30,22 +30,25 @@ html, body
   width: 100%
   height: 100%
 
+.clear
+  clear:both
+
 .logo
   margin: 30px 0 30px 50px
   font-size: 48px
   text-transform: uppercase
-  font-weight: 400
+  font-weight: 100
   letter-spacing: 2px
   span
     letter-spacing: normal
     font-weight: 700
 
 .content
-  max-width: 800px
-  margin: 0 auto
+  max-width: 600px
+  margin: 20px auto
 
 
-cart
+.cart
   width: 100%
   margin: 20px 0
   font-weight: 100
@@ -54,28 +57,32 @@ cart
   width: 50px
   display: inline-block
   float: left
-img
-  width: 100%
-  border-radius: 50%
+  img
+    width: 100%
+    border-radius: 50%
+    // border: 2px #fff solid
+    box-shadow: 0px 1px 5px 0px rgba($text-color, 0.35)
 
 header
+  box-shadow: 0px 1px 5px 0px rgba($text-color, 0.6)
   .wrapper
     padding: 15px 20px 20px
     background-color: $accent
     color: #fff
     box-sizing: border-box
     text-align: center
-    margin-bottom: 20px
+    margin-bottom: 30px
     h1
       text-transform: uppercase
       font-size: 1.8em
+      margin: 0
       font-weight: 300
 
 .message-wrap
-  padding-bottom: 20px
   width: 90%
   display: inline-block
   float: right
+  font-weight: 100
   background-color: #fff
   box-sizing: border-box
   box-shadow: 0px 1px 5px 0px rgba($text-color, 0.35)
@@ -85,16 +92,17 @@ header
     border-bottom: rgba($text-color, 0.4) 1px solid
     text-transform: uppercase
     color: $text-color
-    margin-bottom: 10px
+    font-size: 16px
+    margin: 0px
     .date, .time
       float: right
-
     .date
       margin-right: 25px
 
 .message
   color: $text-color
-  padding: 40px
+  padding: 0px 10px 5px
+  font-size: 16px
   box-sizing: border-box
 
 .wrap
@@ -104,12 +112,40 @@ header
   font-weight: 800
   text-transform: uppercase
 
+// RESPONSIVE
+
+@media screen and (min-width:320px) and (max-width: 599px)
+  header .wrapper h1
+    font-size: 1.5em
+  .message-wrap
+    width: 100%
+    float: left
+    margin-bottom: 20px
+  .img-hold
+    margin-bottom: 5px
+  .message-wrap .user-info
+    min-height: 45px
+    .username, .time, .date
+      margin: 0
+      display: inline-block
+      float: left
+    .time, .date
+      font-size: 14px
+      width: 50%
+    .date
+      text-align: right
+    .username
+      font-weight: normal
+      width: 100%
+      margin-bottom: 10px
+      word-wrap: break-word
+
 @media (max-width: 850px)
   .logo
     text-align: center
     margin-left: 0
   .content
-    margin: 20px
+    margin: 20px auto
 
 @media (max-width: 600px)
   .logo
