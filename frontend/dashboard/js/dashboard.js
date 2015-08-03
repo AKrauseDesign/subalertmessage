@@ -4,8 +4,10 @@ var lastTen = [];
 var list = document.getElementsByClassName('content')[0];
 
 var sectionFactory = function(username, message, resub) {
-  if(resub > 0) list.insertAdjacentHTML('beforeend', '<div class=\"cart\"><div class=\"img-hold\"> img link </div><div class =\"message-wrap\"><div class =\"user-info\"> <span class=\"username\">' + username + ' (resub ' + resub + 'months)</span><span class=\"time\"> ' + Date.getDate() + '/' + Date.getMonth() + '/'  + Date.getFullYear() + '</span></div></div></div> <span class=\"message\">' + message + '</span></div></section>');
-  else ist.insertAdjacentHTML('beforeend', '<div class=\"cart\"><div class=\"img-hold\"> img link </div><div class =\"message-wrap\"><div class =\"user-info\"> <span class=\"username\">' + username + '(New Subscriber)</span><span class=\"time\"> 15 minutes ago </div><span class=\"date\"> 0.1.08.2015 </span></div></div> <span class=\"message\">' + message + '</span></div></section>')
+  var date = new Date();
+  if(resub > 0)
+  list.insertAdjacentHTML('beforeend', '<div class=\"cart\"><div class=\"img-hold\"> img link </div><section class =\"message-wrap\"><div class =\"user-info\"> <span class=\"username\">' + username + ' (Resub for ' + resub + ' months)</span><span class=\"time\">' + date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear() + '</span></div><span class=\"message\">' + message + '</span></div></div></section></div>');
+  else list.insertAdjacentHTML('beforeend', '<div class=\"cart\"><div class=\"img-hold\"> img link </div><section class =\"message-wrap\"><div class =\"user-info\"> <span class=\"username\">' + username + ' (New Subscriber)</span><span class=\"time\">' + date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear() + '</span></div><span class=\"message\">' + message + '</span></div></div></section></div>');
 };
 
 var findLastTen = function(data) {
@@ -22,5 +24,6 @@ var findLastTen = function(data) {
 };
 
 sectionFactory('test', 'test', 5);
+sectionFactory('max', 'test', 0);
 
 socket.on('subMsg', findLastTen);
