@@ -2,7 +2,7 @@ var port = 3100;
 
 var identity = {
   name: ['izlbot'],
-  channels: ['stylerdev'],
+  channels: ['massansc', 'stylerdev'],
   oauth: 'oauth:vjfg2k6x1iwbeo9kt4v8ah9j8v8oxk',
 };
 

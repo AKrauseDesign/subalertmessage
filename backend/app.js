@@ -73,35 +73,41 @@ setInterval(function() {
 }, 1000 * 60 * 60);
 
 client.on('chat', function (channel, user, message, self) {
-  switch (message) {
-    case '!sub':
-      group.whisper(user.username, 'xanHY xanPE Thanks for Subscribing ' + user.username + ' xanLove You now have 1 minute to whisper me back with a message to show on stream!');
-      group.whisper(user.username, '[EXAMPLE]:  /w izlbot Kappa Kappa HEY I LOVE YOU!!!');
-      subs[user.username] = {
-        username: user.username,
-        subbed: Date.now()
-      };
-      break;
-      case '!resub':
-        group.whisper(user.username, 'xanHY xanPE Thanks for Subscribing ' + user.username + ' xanLove You now have 1 minute to whisper me back with a message to show on stream!');
-        group.whisper(user.username, '[EXAMPLE]:  /w izlbot Kappa Kappa HEY I LOVE YOU!!!');
-        subs[user.username] = {
-          username: user.username,
-          months: 10,
-          subbed: Date.now()
-        };
-      break;
+  var words = message.split(' ');
+  if(words[0] == '!sp') {
+    if(user.username === 'stylerdev' || user.username === 'inormous') {
+      switch(words[1]) {
+        default:
+        client.say(channel, 'Missing parameter SwiftRage '+ user.username);
+        client.say(channel, 'Parameters are: permit/revoke');
+        break;
 
-      case 'debug':
-      console.log(subs);
-      break;
+        case 'permit':
+          if(words[2]) {
+            client.say(channel, 'Permitted: ' + words[2] + ' to use subperk!' );
+            setTimeout(function () {
+              group.whisper(words[2], 'xanHY xanPE Thanks for Subscribing ' + words[1] + ' xanLove You now have 5 minute to whisper me back with a message to show on stream!');
+              group.whisper(words[2], '[EXAMPLE]:  /w izlbot Kappa Kappa HEY I LOVE YOU!!!');
+              subs[words[2]] = {
+                username: words[2],
+                subbed: Date.now()
+              };
+            }, 	2000);
+          } else {
+            client.say(channel, 'Missing parameter: User SwiftRage');
+          }
+        break;
 
-      case 'test':
-        sendEvent('stylerdev', 5, 'Here\'s your test message');
-      break;
-
-    default:
-    console.log('Not Found');
+        case 'revoke':
+        if(words[2]) {
+          client.say(channel, 'Revoked: ' + words[2] + '\'s access to  use subperk!' );
+          delete subs[words[2]];
+        } else {
+          client.say(channel, 'Missing parameter: User SwiftRage');
+        }
+        break;
+      }
+    }
   }
 });
 
@@ -124,11 +130,6 @@ client.on('subanniversary', function (channel, username, months) {
 });
 
 group.on('whisper', function(username, message) {
-  if(message === 'stop') {
-    if(username === 'massansc' || username === 'INORMOUS' || username === 'stylerdev') {
-      io.emit('stopSound');
-    }
-  } else {
     if(subs.hasOwnProperty(username)) {
       var time = Date.now() - subs[username].subbed;
       var submonths = subs[username].months;
@@ -144,21 +145,13 @@ group.on('whisper', function(username, message) {
         }
       }
     }
-    else {
-      group.whisper(username, 'Sorry you don\'t have permission SwiftRage');
+    if(message === 'stop') {
+      if(username === 'massansc' || username === 'INORMOUS' || username === 'stylerdev') {
+        io.emit('stopSound');
+      }
     }
-  }
-
 });
 
 
 // User Subscribes [done] -> Server Responds with message (Timer Starts - 1 minute) [done] -> Client responds [done] -> Removed from list [done] -> socket connection [TODO] -> frontend [TODO]
 // NOTE: Create a que on the frontend
-
-
-var audio = new Audio('http://stylerdev.io/s/Donation_v2.mp3');
-      audio.play();
-      audio.addEventListener('loadedmetadata', function() {
-        console.log('Duration: ' + audio.duration + ' Seconds');
-        audio.play();
-      });

@@ -1,11 +1,11 @@
-var socket = io('http://localhost:3100');
+var socket = io('http://hosted.stylerdev.io:3100');
 
 var lastTen = [];
 var list = document.getElementsByClassName('content')[0];
 
 var sectionFactory = function(id, username, message, resub) {
-  if(resub > 0) list.insertAdjacentHTML('beforeend', '<section id=\"' + id + '\"><span class=\"number\">' + id + '</span><div class=\"wrap\"><span class=\"title\">Username: </span> <span class=\"username\">' + username + '</span> <br> <span class=\"title\">Message: </span> <span class=\"message\">' + message + '</span> <span> Thanks For Resubscribing For' +  resub + ' in a row! </span> </div> </section>');
-  else list.insertAdjacentHTML('beforeend', '<section id=\"' + id + '\"><span class=\"number\">' + id + '</span><div class=\"wrap\"><span class=\"title\">Username: </span> <span class=\"username\">' + username + '</span> <br> <span class=\"title\">Message: </span> <span class=\"message\">' + message + '</span> </div> </section>');
+  if(resub > 0) list.insertAdjacentHTML('beforeend', '<section id=\"' + id + '\"><span class=\"number\">' + id + '</span><div class=\"wrap\"><span class=\"title\">Username: </span> <span class=\"username\">' + username+' (Resub: '+resub+' months)'+'</span> <br> <span class=\"title\">Message: </span> <span class=\"message\">' + message + '</span></section>');
+  else list.insertAdjacentHTML('beforeend', '<section id=\"' + id + '\"><span class=\"number\">' + id + '</span><div class=\"wrap\"><span class=\"title\">Username: </span> <span class=\"username\">' + username + ' (New Subscriber)</span> <br> <span class=\"title\">Message: </span> <span class=\"message\">' + message + '</span> </div> </section>');
 };
 
 var findLastTen = function(data) {

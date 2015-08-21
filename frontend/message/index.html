@@ -5,15 +5,19 @@
   <title>SubAlertMessage</title>
   <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,800,700" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="dist/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.3.0/animate.min.css">
 </head>
 <body>
-  <div class="subalert">
-    New Subscriber: <span class="username">Oops! Something went wrong!</span><br>
+  <div class="subalert animated">
+    <span class="sub">New Subscriber: <span class="username">Oops! Something went wrong!</span></span>
+    <span class="resub">Resub: <span class="username">Oops! Something went wrong!</span> (<span class="months"></span> months!)</span><br>
     Message: <span class="message">Oops! Something went wrong!</span>
     <ul class="lastTen"></ul>
   </div>
   <audio class="sound" src="http://stylerdev.io/s/subperk.mp3"></audio>
   <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
   <script src="dist/message.js"></script>
   <noscript>Make sure Javasript is enabled!</noscript>
 </body>
