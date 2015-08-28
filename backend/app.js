@@ -9,14 +9,16 @@
 
 
 // Dependencies
-var irc     = require('tmi.js'),
-    app     = require('express')(),
-    http    = require('http').Server(app),
-    io      = require('socket.io')(http),
-    config  = require('./config'),
-    fs      = require('fs'),
-    extend       = require('util')._extend,
-    watson = require('watson-developer-cloud');
+var irc = require('tmi.js'),
+app     = require('express')(),
+http    = require('http').Server(app),
+io      = require('socket.io')(http),
+config  = require('./config'),
+fs      = require('fs'),
+extend  = require('util')._extend,
+watson  = require('watson-developer-cloud'),
+util    = require('util'),
+moment  = require('moment-timezone');
 
 var credentials = {
   url: 'https://stream.watsonplatform.net/text-to-speech/api',
@@ -40,6 +42,17 @@ app.get('/synthesize', function(req, res) {
   transcript.pipe(res);
 });
 
+app.get('/perk/:user', function(req, res) {
+  var user = req.params.user;
+  userMessages[user] = {
+    username: user,
+    time: Date.now()
+  };
+  res.status('200').send(user);
+  group.whisper(user, 'xanHY xanPE You now have 7 minute to whisper me back with a message to show on stream!');
+  group.whisper(user, '[EXAMPLE]:  /w izlbot Kappa Kappa HEY I LOVE YOU!!!');
+});
+
 var client = new irc.client(config.tmi);
 client.connect().then(function(){
   console.log('Connected to TMI');
@@ -54,10 +67,13 @@ http.listen(config.port, function(){
 });
 
 var subs = {};
+var userMessages = {};
 
-function sendEvent(user, resub, msg){
-  io.emit('subMsg', {
+function sendEvent(user, type, resub, msg) {
+  io.emit('message', {
     username: user,
+    data: moment(),
+    type: type,
     resub: resub,
     message: msg
   });
@@ -74,7 +90,19 @@ setInterval(function() {
 
 client.on('chat', function (channel, user, message, self) {
   var words = message.split(' ');
-  if(words[0] == '!sp') {
+  if(words[0] == '!debug') {
+    console.log(subs[user.username].hasOwnProperty('resub'));
+    console.log(subs);
+  }
+  if(words[0] == '!tag') {
+    if(user.subscriber === true || user['user-type'] === 'mod') {
+      var hightlight = util.format('%s, [%s]: %s \r\n', moment().tz('Asia/Seoul').format('llll'), user.username, message.substring(5));
+      fs.appendFile('/srv/www/hosted.stylerdev.io/public_html/massan/highlights.txt', hightlight, function (err) {
+        if (err) throw err;
+      });
+    }
+  }
+  if(words[0] == '!keepo') {
     if(user.username === 'stylerdev' || user.username === 'inormous') {
       switch(words[1]) {
         default:
@@ -83,19 +111,19 @@ client.on('chat', function (channel, user, message, self) {
         break;
 
         case 'permit':
-          if(words[2]) {
-            client.say(channel, 'Permitted: ' + words[2] + ' to use subperk!' );
-            setTimeout(function () {
-              group.whisper(words[2], 'xanHY xanPE Thanks for Subscribing ' + words[1] + ' xanLove You now have 5 minute to whisper me back with a message to show on stream!');
-              group.whisper(words[2], '[EXAMPLE]:  /w izlbot Kappa Kappa HEY I LOVE YOU!!!');
-              subs[words[2]] = {
-                username: words[2],
-                subbed: Date.now()
-              };
-            }, 	2000);
-          } else {
-            client.say(channel, 'Missing parameter: User SwiftRage');
-          }
+        if(words[2]) {
+          client.say(channel, 'Permitted: ' + words[2] + ' to use subperk!' );
+          setTimeout(function () {
+            group.whisper(words[2], 'xanHY xanPE Thanks for Subscribing ' + words[1] + ' xanLove You now have 5 minute to whisper me back with a message to show on stream!');
+            group.whisper(words[2], '[EXAMPLE]:  /w izlbot Kappa Kappa HEY I LOVE YOU!!!');
+            subs[words[2].toLowerCase()] = {
+              username: words[2].toLowerCase(),
+              subbed: Date.now()
+            };
+          }, 	2000);
+        } else {
+          client.say(channel, 'Missing parameter: User SwiftRage');
+        }
         break;
 
         case 'revoke':
@@ -112,7 +140,7 @@ client.on('chat', function (channel, user, message, self) {
 });
 
 client.on('subscription', function (channel, username) {
-  group.whisper(username, 'xanHY xanPE Thanks for Subscribing ' + username + ' xanLove You now have 1 minute to whisper me back with a message to show on stream!');
+  group.whisper(username, 'xanHY xanPE Thanks for Subscribing ' + username + ' xanLove You now have 7 minute to whisper me back with a message to show on stream!');
   group.whisper(username, '[EXAMPLE]:  /w izlbot Kappa Kappa HEY I LOVE YOU!!!');
   subs[username] = {
     username: username,
@@ -120,7 +148,7 @@ client.on('subscription', function (channel, username) {
   };
 });
 client.on('subanniversary', function (channel, username, months) {
-  group.whisper(username, 'xanHY xanPE Thanks for Resubscribing for '+ months + ' months ' + username + ' xanLove You now have 1 minute to whisper me back with a message to show on stream!');
+  group.whisper(username, 'xanHY xanPE Thanks for Resubscribing for '+ months + ' months ' + username + ' xanLove You now have 7 minute to whisper me back with a message to show on stream!');
   group.whisper(username, '[EXAMPLE]:  /w izlbot Kappa Kappa HEY I LOVE YOU!!!');
   subs[username] = {
     username: username,
@@ -130,26 +158,35 @@ client.on('subanniversary', function (channel, username, months) {
 });
 
 group.on('whisper', function(username, message) {
-    if(subs.hasOwnProperty(username)) {
-      var time = Date.now() - subs[username].subbed;
-      var submonths = subs[username].months;
-      if(time < 60000) {
-        if(submonths) {
-          group.whisper(username, '" '+ message +' "' + ' Will be shown on stream within 30 seconds 4Head');
-          sendEvent(username, submonths, message);
-          delete subs[username];
-        } else {
-          group.whisper(username, '" '+ message +' "' + ' Will be shown on stream within 30 seconds 4Head');
-          sendEvent(username, 0, message);
-          delete subs[username];
-        }
+  if(userMessages.hasOwnProperty(username)) {
+    var messageTime = Date.now() - userMessages[username].time;
+    if(messageTime < 60000 * 7) {
+      group.whisper(username, '" '+ message +' "' + ' Will be shown on stream within 30 seconds 4Head');
+      sendEvent(username, 'userMsg', 0, message);
+      delete userMessages[username];
+    }
+  }
+  if(subs.hasOwnProperty(username)) {
+    var time = Date.now() - subs[username].subbed;
+    var resub = subs[username].resub;
+    var submonths = subs[username].months;
+    if(time < 60000 * 7) {
+      if(subs[username].hasOwnProperty('resub')) {
+        group.whisper(username, '" '+ message +' "' + ' Will be shown on stream within 30 seconds 4Head');
+        sendEvent(username, 'resubMsg', resub, message);
+        delete subs[username];
+      } else {
+        group.whisper(username, '" '+ message +' "' + ' Will be shown on stream within 30 seconds 4Head');
+        sendEvent(username, 'subMsg', 0, message);
+        delete subs[username];
       }
     }
-    if(message === 'stop') {
-      if(username === 'massansc' || username === 'INORMOUS' || username === 'stylerdev') {
-        io.emit('stopSound');
-      }
+  }
+  if(message === 'stop') {
+    if(username === 'massansc' || username === 'INORMOUS' || username === 'stylerdev') {
+      io.emit('stopSound');
     }
+  }
 });
 
 
