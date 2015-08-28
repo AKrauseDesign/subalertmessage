@@ -55,8 +55,6 @@ header.header
   width: 100%
   margin: 20px 0
   font-weight: 100
-
-
   .img-hold
     width: 50px
     display: inline-block
@@ -64,11 +62,9 @@ header.header
     img
       width: 100%
       border-radius: 50%
-
-
-
   .message-wrap
-    width:540px
+    width: 100%
+    max-width:540px
     display: inline-block
     float: right
     background-color: #fff
@@ -86,7 +82,6 @@ header.header
 
       .date
         margin-right: 25px
-
 
     .message
       padding: 10px
@@ -108,8 +103,27 @@ header.header
 .right-text
   text-align: right
 
-
 .wrapper
-  width: 600px
+  width: 100%
   max-width: 600px
   margin: 0 auto
+
+@media screen and (min-width: 320px) and (max-width: 480px)
+  .cart
+    .message-wrap
+      .message
+        font-size: 14px
+@media screen and (min-width: 320px) and (max-width: 630px)
+  .cart
+    padding: 5px
+    box-sizing: border-box
+    .message-wrap
+      .user-info
+        .username
+          display: block
+          margin-bottom: 5px
+          font-weight: bold
+        .time
+          float: none
+        .date
+          margin-right: 0
