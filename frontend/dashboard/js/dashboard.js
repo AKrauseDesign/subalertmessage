@@ -31,7 +31,7 @@ var findLastTen = function(data) {
     }
     list.innerHTML = ' ';
     for(var j = 0; j < lastTen.length; j++) {
-      sectionFactory(lastTen[j].username, lastTen[j].message, lastTen[j].timestamp);
+      sectionFactory(lastTen[j].username, lastTen[j].message, lastTen[j].resub, lastTen[j].timestamp);
     }
   }
 };
