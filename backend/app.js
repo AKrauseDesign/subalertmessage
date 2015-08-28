@@ -72,10 +72,10 @@ var userMessages = {};
 function sendEvent(user, type, resub, msg) {
   io.emit('message', {
     username: user,
-    data: moment(),
     type: type,
     resub: resub,
-    message: msg
+    message: msg,
+    timestamp: moment()
   });
 }
 
