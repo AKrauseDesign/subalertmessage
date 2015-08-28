@@ -8,7 +8,7 @@ var notify = require('gulp-notify');
 var plumber = require('gulp-plumber');
 
 gulp.task('sass', function() {
-  return gulp.src('./sass/main.sass')
+  return gulp.src('./sass/*.sass')
     .pipe(plumber({errorHandler: errorAlert}))
     .pipe(sass({indentedSyntax: true}))
     .pipe(autoprefixer())

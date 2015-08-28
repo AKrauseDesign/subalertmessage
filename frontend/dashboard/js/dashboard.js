@@ -1,4 +1,4 @@
-var socket = io('http://hosted.stylerdev.io:3100');
+// var socket = io('http://hosted.stylerdev.io:3100');
 
 var lastTen = [];
 var list = document.getElementsByClassName('content')[0];
@@ -15,8 +15,6 @@ var getAvatar = function(user) {
 
 var sectionFactory = function(username, message, resub) {
   var date = new Date();
-
-
   if(resub > 0)
        list.insertAdjacentHTML('beforeend', '<div class=\"cart\"><div class=\"img-hold\"> <img src="' + getAvatar(username) + '"> </div><section class =\"message-wrap\"><div class =\"user-info\"> <span class=\"username\">' + username + ' (Resub for ' + resub + ' months)</span><span class=\"time\">' + date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear() + '</span></div><p class=\"message\">' + message + '</p></div></div></section></div>');
   else
@@ -39,5 +37,5 @@ var findLastTen = function(data) {
 };
 
 
-sectionFactory('itsAwesomeBacon', 'hey kappa kappa hey', 4);
+sectionFactory('itsawesomebacon', 'hey kappa kappa hey', 4);
 socket.on('subMsg', findLastTen);
