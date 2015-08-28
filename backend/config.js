@@ -2,7 +2,7 @@ var port = 3100;
 
 var identity = {
   name: ['izlbot'],
-  channels: ['massansc', 'stylerdev'],
+  channels: ['stylerdev'],
   oauth: 'oauth:vjfg2k6x1iwbeo9kt4v8ah9j8v8oxk',
 };
 
@@ -26,9 +26,7 @@ var grouptmi = {
   },
   connection: {
     random: 'group',
-    reconnect: true,
-    server: '199.9.253.120',
-    port: 80
+    reconnect: true
   },
   identity: {
     username: identity.name,
