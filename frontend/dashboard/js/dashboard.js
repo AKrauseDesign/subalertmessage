@@ -1,4 +1,4 @@
-var socket = io('http://localhost:3100');
+var socket = io('http://hosted.stylerdev.io:3100');
 
 var lastTen = [];
 var list = document.getElementsByClassName('content')[0];
