@@ -86,6 +86,9 @@ io.on('connection', function (socket) {
   });
   socket.on('changeSettings', function (data) {
     allowViewerMessages = data.viewerMessages;
+    socket.broadcast.emit('settings', {
+      userMessages: allowViewerMessages
+    });
     client.say('massansc', '!enable !perk ' + data.viewerMessages);
     console.log('Viewer Messages: ' + allowViewerMessages);
   });
