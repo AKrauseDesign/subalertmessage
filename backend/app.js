@@ -27,7 +27,24 @@ var credentials = {
   password: 'Yr6WnIkiOPZQ',
 };
 
+var subs = {};
+var userMessages = {};
+var allowViewerMessages = false;
+
 var textToSpeech = watson.text_to_speech(credentials);
+
+var client = new irc.client(config.tmi);
+client.connect().then(function(){
+  console.log('Connected to TMI');
+});
+var group = new irc.client(config.grouptmi);
+group.connect().then(function(){
+  console.log('Connected to Group TMI');
+});
+
+http.listen(config.port, function(){
+  console.log('Connection Successful: listening on *:' + config.port);
+});
 
 app.get('/synthesize', function(req, res) {
   var transcript = textToSpeech.synthesize(req.query);
@@ -53,31 +70,26 @@ app.get('/perk/:user', function(req, res) {
   group.whisper(user, '[EXAMPLE]:  /w izlbot Kappa Kappa HEY I LOVE YOU!!!');
 });
 
-var client = new irc.client(config.tmi);
-client.connect().then(function(){
-  console.log('Connected to TMI');
-});
-var group = new irc.client(config.grouptmi);
-group.connect().then(function(){
-  console.log('Connected to Group TMI');
-});
-
-http.listen(config.port, function(){
-  console.log('Connection Successful: listening on *:' + config.port);
-});
-
-var subs = {};
-var userMessages = {};
-
 function sendEvent(user, type, resub, msg) {
   io.emit('message', {
     username: user,
     type: type,
     resub: resub,
     message: msg,
-    timestamp: moment()
+    timestamp: Date.now()
   });
 }
+
+io.on('connection', function (socket) {
+  socket.emit('settings', {
+    userMessages: allowViewerMessages
+  });
+  socket.on('changeSettings', function (data) {
+    allowViewerMessages = data.viewerMessages;
+    client.say('massansc', '!enable !perk ' + data.viewerMessages);
+    console.log('Viewer Messages: ' + allowViewerMessages);
+  });
+});
 
 setInterval(function() {
   for(var sub in subs) {
@@ -102,7 +114,7 @@ client.on('chat', function (channel, user, message, self) {
       });
     }
   }
-  if(words[0] == '!keepo') {
+  if(words[0] == '!sp') {
     if(user.username === 'stylerdev' || user.username === 'inormous') {
       switch(words[1]) {
         default:

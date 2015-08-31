@@ -36,16 +36,41 @@ body
 
 
 header.header
+  background-color: $accent
   .wrapper
-    padding: 15px 20px 20px
-    background-color: $accent
+    padding: 20px 20px 20px
     color: #fff
     box-sizing: border-box
     text-align: center
+
+    .button
+      display: inline-block
+      height: 38px
+      padding: 0 30px
+      color: #555
+      text-align: center
+      font-size: 11px
+      font-weight: 600
+      line-height: 38px
+      letter-spacing: .1rem
+      text-transform: uppercase
+      white-space: nowrap
+      cursor: pointer
+      box-sizing: border-box
+      background-color: #fff
+      margin-top: 10px
+    ul
+      margin: 0
+      padding: 0
+    li
+      padding: 0 10px 0 10px
+      font-size: 14px
+      display: inline
     h1
       text-transform: uppercase
       font-size: 1.8em
       font-weight: 300
+      margin-bottom: 0
 
 
 
@@ -110,6 +135,9 @@ header.header
 
 @media screen and (min-width: 320px) and (max-width: 480px)
   .cart
+    .img-hold
+      display: none
+
     .message-wrap
       .message
         font-size: 14px
@@ -125,5 +153,6 @@ header.header
           font-weight: bold
         .time
           float: none
+          font-size: 12px
         .date
           margin-right: 0

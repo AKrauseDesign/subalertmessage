@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta charset="UTF-8">
   <title>Subscriber Alert Page</title>
   <link rel="stylesheet" href="dist/main.css">
@@ -10,47 +9,23 @@
 <body>
   <header class="header">
     <div class="wrapper">
-      <h1>Your Messages From Subscribers</h1>
+      <h1>Subperk dashboard</h1>
+      <ul>
+        <li>Viewer: <strong id="viewer">0</strong></li>
+        <li>|</li>
+        <li>Sub: <strong id="sub">0</strong></li>
+        <li>|</li>
+        <li>Resub: <strong id="resub">0</strong></li>
+      </ul>
+      <div class="button"></div>
     </div>
   </header>
 
   <div class="wrapper content">
-    <div class="cart">
-      <div class="img-hold">
-        <img src="http://static-cdn.jtvnw.net/jtv_user_pictures/stylerdev-profile_image-c7ff14f0333d17a0-300x300.jpeg" alt="">
-      </div>
-      <div class="message-wrap">
-        <div class="user-info">
-          <span class="username"> DankMemer69 </span>
-          <span class="time"> 15 minutes ago </span>
-          <span class="date"> 01.08.2015 </span>
-        </div>
-        <div class="message">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. At, possimus, laboriosam. Voluptatibus, illo vitae harum quam. Saepe facere voluptate labore inventore voluptatum nihil minus accusantium ex eum, voluptatibus facilis repellat.
-        </div>
-      </div>
-    </div>
-
-    <div class="cart">
-      <div class="img-hold">
-        <img src="http://static-cdn.jtvnw.net/jtv_user_pictures/stylerdev-profile_image-c7ff14f0333d17a0-300x300.jpeg" alt="">
-      </div>
-      <div class="message-wrap">
-        <div class="user-info">
-          <span class="username">DankMemer69</span>
-          <span class="time">15 minutes ago</span>
-          <span class="date">01.08.2015</span>
-        </div>
-        <div class="message">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. At, possimus, laboriosam. Voluptatibus, illo vitae harum quam. Saepe facere voluptate labore inventore voluptatum nihil minus accusantium ex eum, voluptatibus facilis repellat.
-        </div>
-      </div>
-    </div>
-
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+  <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
   <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-  <script src="http://momentjs.com/downloads/moment.min.js"></script>
-  <script src="js/dashboard.js"></script>
+  <script src="dist/dashboard.js"></script>
 </body>
 </html>
