@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>Subscriber Alert Page</title>
-  <link rel="stylesheet" href="dist/main.css">
+  <link rel="stylesheet" href="dist/index.css">
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
-</head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
 <body>
   <header class="header">
     <div class="wrapper">
-      <h1>Subperk dashboard</h1>
+      <h1>Subperk</h1>
       <ul>
         <li>Viewer: <strong id="viewer">0</strong></li>
         <li>|</li>
@@ -18,11 +18,18 @@
         <li>Resub: <strong id="resub">0</strong></li>
       </ul>
       <div class="button"></div>
+      <div class="tabs">
+        <div class="tab tab-1" data-title="Subperk" data-href="views/subperk.html">Subperk</div>
+        <div class="tab tab-2" data-title="Visual Board" data-href="views/visualboard.html">Visual Board</div>
+      </div>
     </div>
   </header>
 
-  <div class="wrapper content">
-  </div>
+
+<div class="views">
+
+</div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
   <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
   <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>

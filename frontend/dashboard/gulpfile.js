@@ -3,13 +3,12 @@ var sass = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
 var minifyCSS = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
-var livereload = require('gulp-livereload');
 var notify = require('gulp-notify');
 var plumber = require('gulp-plumber');
 var browserSync = require('browser-sync');
 
 gulp.task('sass', function() {
-  return gulp.src('./sass/*.sass')
+  return gulp.src('./sass/index.sass')
     .pipe(plumber({errorHandler: errorAlert}))
     .pipe(sass({indentedSyntax: true}))
     .pipe(autoprefixer())
@@ -33,12 +32,9 @@ gulp.task('browser-sync', function() {
 });
 
 gulp.task('watch', function() {
-   gulp.watch('./sass/main.sass', ['sass']);
+   gulp.watch('./sass/*.sass', ['sass']);
 
    gulp.watch('./js/*.js', ['js']);
-
-   livereload.listen();
-   gulp.watch(['dist/**', 'index.html']).on('change', livereload.changed);
 });
 
 gulp.task('default', ['watch', 'browser-sync']);

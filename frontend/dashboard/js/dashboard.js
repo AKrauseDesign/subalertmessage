@@ -14,12 +14,25 @@ var viewerMsg = function(data){
   viewerMessages ? $('.button').text('Disable Viewer Messages') : $('.button').text('Enable Viewer Messages');
 };
 
+
+
 $('.button').click(function() {
   viewerMessages = !viewerMessages;
   viewerMessages ? $('.button').text('Disable Viewer Messages') : $('.button').text('Enable Viewer Messages');
   socket.emit('changeSettings', {
     viewerMessages: viewerMessages
   });
+});
+
+
+$('.tab').click(function() {
+  var href = $(this).attr('data-href');
+  var title = $(this).attr('data-title');
+
+  $('.tab').removeClass('link-active');
+  $(this).addClass('link-active');
+  $('.views').load(href);
+  $('.wrapper > h1').text(title);
 });
 
 var getAvatar = function(user) {
@@ -63,7 +76,6 @@ var sectionFactory = function(username, message, type, resub) {
 };
 
 
-
 var findLastTen = function(data) {
   if(data !== null) {
     lastTen.unshift(data);
@@ -75,6 +87,37 @@ var findLastTen = function(data) {
     sectionFactory(lastTen[0].username, lastTen[0].message, lastTen[0].type, lastTen[0].resub);
   }
 };
+
+
+var soundTiles = document.querySelectorAll('.sound-tile');
+
+
+/*
+ * Listeners
+ */
+
+[].forEach.call(soundTiles, function(e) {
+  e.addEventListener('click', function() {
+    var target = e.getAttribute('data-name');
+    if (target === 'guns' || target === 'salt' || target === 'exorcism')
+      sendEvent('overlay', 'kkona', target);
+    else
+      sendEvent('sound', 'kkona', target);
+  });
+});
+
+/*
+ * functions
+ */
+
+function sendEvent(mode, user, target) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'http://localhost:3200/api/visualboard/' + mode + '/' + user + '/' + target);
+  xhr.send();
+  console.log('Sent event with mode: ' + mode + ', user: ' + user + ' and target: ' + target);
+}
+
+
 
 socket.on('message', findLastTen);
 socket.on('settings', viewerMsg);

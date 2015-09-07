@@ -1,0 +1,100 @@
+@import "utils/vars"
+
+
+*
+  font-family: 'Open Sans' !important
+
+body
+  background-color: $primary-color-dark
+  font-family: 'Open Sans'
+  font-size: 16px
+  color: #555
+  height: 2000px
+
+.sound-tile
+  min-height: 200px
+  text-align: center
+  padding: 10px
+  cursor: pointer
+  margin-bottom: 20px
+  border-radius: 4px
+
+  transition: all 100ms ease-in-out
+  transform: rotate(0deg)
+  background:
+    color: $primary-color
+    size: contain
+    repeat: no-repeat
+    position: center
+
+  &-title
+    margin-top: 76px
+    color: white
+    font-size: 24px
+
+  &:hover
+    transform: scale(1.05)
+
+
+
+.title
+  margin-bottom: 20px
+  padding: 20px
+  background-color: #71c5d3
+  text-align: center
+  font-size: 42px
+  font-weight: 300
+  color: $primary-color-dark
+
+  span
+
+
+.sound-board-title
+  text-align: center
+  padding: 20px
+  font-size: 42px
+
+  // form
+input[type="file"]
+  display: none
+
+// this is the file upload button, have to do it this way because
+// of how the file upload button works
+
+.upload-wrapper
+  padding: 20px
+  text-align: center
+  background-color: #33C3F0
+  cursor: pointer
+  border-radius: 4px
+  margin-bottom: 10px
+
+
+  &:hover, &:active
+    background-color: #1EAEDB
+
+.upload-label
+  text-align: center
+
+
+
+.form-section
+  padding: 40px
+
+
+
+  // scroll bar
+::-webkit-scrollbar
+    width: 4px
+    height: 4px
+    transition: all 0.1s linear
+    border-radius: 50%
+
+::-webkit-scrollbar-track
+    background: rgba(0, 0, 0, 0)
+
+::-webkit-scrollbar-track:hover
+    background: rgba(0, 0, 0, .2)
+
+::-webkit-scrollbar-thumb
+    background: #a5abb1
