@@ -4,6 +4,7 @@ var socket = io('http://localhost:3100');
 
 var lastTen = [];
 var list = document.getElementsByClassName('content')[0];
+var soundTiles = document.querySelectorAll('.sound-tile');
 var subCount = 0;
 var resubCount = 0;
 var userCount = 0;
@@ -13,6 +14,7 @@ var viewerMsg = function(data){
   viewerMessages = data.userMessages;
   viewerMessages ? $('.button').text('Disable Viewer Messages') : $('.button').text('Enable Viewer Messages');
 };
+
 
 
 
@@ -31,7 +33,8 @@ $('.tab').click(function() {
 
   $('.tab').removeClass('link-active');
   $(this).addClass('link-active');
-  $('.views').load(href);
+  $('.clear').hide();
+  $(href).show();
   $('.wrapper > h1').text(title);
 });
 
@@ -96,8 +99,19 @@ var soundTiles = document.querySelectorAll('.sound-tile');
  * Listeners
  */
 
+
+ $('.sound-tile').click(function() {
+   console.log('Sound tile clicked');
+   var target = $(this).attr('data-name');
+   if (target === 'guns' || target === 'salt' || target === 'exorcism')
+     sendEvent('overlay', 'kkona', target);
+   else
+     sendEvent('sound', 'kkona', target);
+ });
+/*
 [].forEach.call(soundTiles, function(e) {
   e.addEventListener('click', function() {
+    console.log('Sound tile clicked');
     var target = e.getAttribute('data-name');
     if (target === 'guns' || target === 'salt' || target === 'exorcism')
       sendEvent('overlay', 'kkona', target);
@@ -105,7 +119,7 @@ var soundTiles = document.querySelectorAll('.sound-tile');
       sendEvent('sound', 'kkona', target);
   });
 });
-
+*/
 /*
  * functions
  */
