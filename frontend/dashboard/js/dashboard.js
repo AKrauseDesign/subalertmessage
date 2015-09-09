@@ -86,7 +86,7 @@ var findLastTen = function(data) {
       lastTen.pop();
     }
 
-    // list.innerHTML = ' ';
+
     sectionFactory(lastTen[0].username, lastTen[0].message, lastTen[0].type, lastTen[0].resub);
   }
 };
@@ -108,18 +108,7 @@ var soundTiles = document.querySelectorAll('.sound-tile');
    else
      sendEvent('sound', 'kkona', target);
  });
-/*
-[].forEach.call(soundTiles, function(e) {
-  e.addEventListener('click', function() {
-    console.log('Sound tile clicked');
-    var target = e.getAttribute('data-name');
-    if (target === 'guns' || target === 'salt' || target === 'exorcism')
-      sendEvent('overlay', 'kkona', target);
-    else
-      sendEvent('sound', 'kkona', target);
-  });
-});
-*/
+
 /*
  * functions
  */
