@@ -1,5 +1,5 @@
-// var socket = io('http://hosted.stylerdev.io:3100');
-var socket = io('http://localhost:3100');
+var socket = io('http://hosted.stylerdev.io:3100');
+//var socket = io('http://localhost:3100');
 
 
 var lastTen = [];
@@ -103,7 +103,7 @@ var soundTiles = document.querySelectorAll('.sound-tile');
  $('.sound-tile').click(function() {
    console.log('Sound tile clicked');
    var target = $(this).attr('data-name');
-   if (target === 'guns' || target === 'salt' || target === 'exorcism')
+   if (target === 'guns' || target === 'salt' || target === 'exorcism' || target === 'justdoit' || target === 'onfire' || target === 'dbz' || target === 'nyancat' || target === 'doglick')
      sendEvent('overlay', 'kkona', target);
    else
      sendEvent('sound', 'kkona', target);
@@ -115,7 +115,7 @@ var soundTiles = document.querySelectorAll('.sound-tile');
 
 function sendEvent(mode, user, target) {
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'http://localhost:3200/api/visualboard/' + mode + '/' + user + '/' + target);
+  xhr.open('GET', 'http://hosted.stylerdev.io:3200/api/visualboard/' + mode + '/' + user + '/' + target);
   xhr.send();
   console.log('Sent event with mode: ' + mode + ', user: ' + user + ' and target: ' + target);
 }

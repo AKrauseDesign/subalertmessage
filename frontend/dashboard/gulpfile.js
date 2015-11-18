@@ -1,7 +1,7 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
-var minifyCSS = require('gulp-minify-css');
+
 var uglify = require('gulp-uglify');
 var notify = require('gulp-notify');
 var plumber = require('gulp-plumber');
@@ -12,7 +12,6 @@ gulp.task('sass', function() {
     .pipe(plumber({errorHandler: errorAlert}))
     .pipe(sass({indentedSyntax: true}))
     .pipe(autoprefixer())
-    .pipe(minifyCSS())
     .pipe(gulp.dest('dist'));
 });
 
